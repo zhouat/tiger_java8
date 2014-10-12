@@ -1,11 +1,12 @@
+
 import static control.Control.ConAst.dumpAst;
 import static control.Control.ConAst.testFac;
 
+import ast.Ast.Program;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import ast.Ast.Program;
+import java.io.PushbackInputStream;
 import lexer.Lexer;
 import lexer.Token;
 import parser.Parser;
@@ -18,7 +19,8 @@ public class Tiger
   {
     InputStream fstream;
     Parser parser;
-
+    PushbackInputStream  pstream;
+    	
     // ///////////////////////////////////////////////////////
     // handle command line arguments
     CommandLine cmd = new CommandLine();
@@ -34,11 +36,29 @@ public class Tiger
       System.exit(1);
     }
 
+    /*
+    // /////////////////////////////////////////////
+    // the straight-line interpreter (and compiler)    
+    switch (Control.ConSlp.action){
+    case NONE:
+      System.exit(0);
+      break;
+    default:
+      slp.Main slpmain = new slp.Main();
+      if (Control.ConSlp.div) {
+        slpmain.doit(slp.Samples.dividebyzero);
+        System.exit(0);
+      }
+      slpmain.doit(slp.Samples.prog);
+      System.exit(0);
+    }
+
+    
     if (fname == null) {
       cmd.usage();
       return;
     }
-
+*/
     // /////////////////////////////////////////////////////
     // it would be helpful to be able to test the lexer
     // independently.
@@ -46,9 +66,11 @@ public class Tiger
       System.out.println("Testing the lexer. All tokens:");
       try {
         fstream = new BufferedInputStream(new FileInputStream(fname));
-        Lexer lexer = new Lexer(fname, fstream);
+        pstream=new PushbackInputStream(fstream);
+        
+        Lexer lexer = new Lexer(fname, pstream);
+        
         Token token = lexer.nextToken();
-
         while (token.kind != Token.Kind.TOKEN_EOF) {
           System.out.println(token.toString());
           token = lexer.nextToken();
@@ -62,12 +84,15 @@ public class Tiger
 
     // /////////////////////////////////////////////////////////
     // normal compilation phases.
+
     Program.T theAst = null;
 
     // parsing the file, get an AST.
     try {
-      fstream = new BufferedInputStream(new FileInputStream(fname));
-      parser = new Parser(fname, fstream);
+     fstream = new BufferedInputStream(new FileInputStream(fname));
+      pstream = new PushbackInputStream(fstream);
+      
+      parser = new Parser(fname, pstream);
 
       theAst = parser.parse();
 
@@ -76,6 +101,7 @@ public class Tiger
       e.printStackTrace();
       System.exit(1);
     }
+
     
     // pretty printing the AST, if necessary
     if (dumpAst) {
@@ -87,6 +113,7 @@ public class Tiger
     elaborator.ElaboratorVisitor elab = new elaborator.ElaboratorVisitor();
     theAst.accept(elab);
     
+
     return;
   }
 }
