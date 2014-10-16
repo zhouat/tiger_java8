@@ -618,9 +618,13 @@ public class Ast
       public LinkedList<Stm.T> stms;
       public Exp.T retExp;
 
-      public MethodSingle(Type.T retType, String id,
-          LinkedList<Dec.T> formals, LinkedList<Dec.T> locals,
-          LinkedList<Stm.T> stms, Exp.T retExp)
+      public MethodSingle(
+    		  Type.T retType, 
+    		  String id,
+    		  LinkedList<Dec.T> formals, 
+    		  LinkedList<Dec.T> locals,
+    		  LinkedList<Stm.T> stms, 
+    		  Exp.T retExp)
       {
         this.retType = retType;
         this.id = id;
@@ -652,9 +656,11 @@ public class Ast
       public java.util.LinkedList<Dec.T> decs;
       public java.util.LinkedList<ast.Ast.Method.T> methods;
 
-      public ClassSingle(String id, String extendss,
-          java.util.LinkedList<Dec.T> decs,
-          java.util.LinkedList<ast.Ast.Method.T> methods)
+      public ClassSingle(
+    		  String id, 
+    		  String extendss,
+    		  java.util.LinkedList<Dec.T> decs,
+    		  java.util.LinkedList<ast.Ast.Method.T> methods)
       {
         this.id = id;
         this.extendss = extendss;

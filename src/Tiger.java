@@ -89,7 +89,7 @@ public class Tiger
 
     // parsing the file, get an AST.
     try {
-     fstream = new BufferedInputStream(new FileInputStream(fname));
+      fstream = new BufferedInputStream(new FileInputStream(fname));
       pstream = new PushbackInputStream(fstream);
       
       parser = new Parser(fname, pstream);
@@ -109,10 +109,11 @@ public class Tiger
       theAst.accept(pp);
     }
     
+    /*
     // elaborate the AST, report all possible errors.
     elaborator.ElaboratorVisitor elab = new elaborator.ElaboratorVisitor();
     theAst.accept(elab);
-    
+    */
 
     return;
   }
