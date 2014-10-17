@@ -109,11 +109,11 @@ public class Tiger
       theAst.accept(pp);
     }
     
-    /*
+    
     // elaborate the AST, report all possible errors.
     elaborator.ElaboratorVisitor elab = new elaborator.ElaboratorVisitor();
     theAst.accept(elab);
-    */
+    
 
     return;
   }

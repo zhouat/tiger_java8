@@ -3,6 +3,7 @@ package elaborator;
 import java.util.LinkedList;
 
 import ast.Ast.Dec;
+import ast.Ast.Exp.This;
 import ast.Ast.Type;
 import util.Todo;
 
@@ -47,7 +48,7 @@ public class MethodTable
 
   public void dump()
   {
-    new Todo();
+    System.out.println(this.table);
   }
 
   @Override
