@@ -1,11 +1,11 @@
 import static control.Control.ConAst.dumpAst;
 import static control.Control.ConAst.testFac;
 
+import ast.Ast.Program;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import ast.Ast.Program;
+import java.io.PushbackInputStream;
 import lexer.Lexer;
 import lexer.Token;
 import parser.Parser;
@@ -18,7 +18,8 @@ public class Tiger
   {
     InputStream fstream;
     Parser parser;
-
+    PushbackInputStream  pstream;
+    	
     // ///////////////////////////////////////////////////////
     // handle command line arguments
     CommandLine cmd = new CommandLine();
@@ -66,15 +67,46 @@ public class Tiger
       default:
         break;
       }
+
       System.out.println("Testing the Tiger compiler on Fac.java finished.");
       System.exit(1);
     }
+    
+    if (fname == null) {
+        cmd.usage();
+        return;
+      }
+     
+    Control.ConCodeGen.fileName = fname;
 
+    /*
+    // /////////////////////////////////////////////
+    // the straight-line interpreter (and compiler)    
+    switch (Control.ConSlp.action){
+    case NONE:
+      System.exit(0);
+      break;
+    default:
+      slp.Main slpmain = new slp.Main();
+      if (Control.ConSlp.div) {
+        slpmain.doit(slp.Samples.dividebyzero);
+        System.exit(0);
+      }
+      slpmain.doit(slp.Samples.prog);
+      System.exit(0);
+    }
+
+    
+>>>>>>> Lab2
     if (fname == null) {
       cmd.usage();
       return;
     }
+<<<<<<< HEAD
     Control.ConCodeGen.fileName = fname;
+
+=======
+*/
 
     // /////////////////////////////////////////////////////
     // it would be helpful to be able to test the lexer
@@ -83,9 +115,12 @@ public class Tiger
       System.out.println("Testing the lexer. All tokens:");
       try {
         fstream = new BufferedInputStream(new FileInputStream(fname));
-        Lexer lexer = new Lexer(fname, fstream);
-        Token token = lexer.nextToken();
 
+        pstream=new PushbackInputStream(fstream);
+        
+        Lexer lexer = new Lexer(fname, pstream);
+        
+        Token token = lexer.nextToken();
         while (token.kind != Token.Kind.TOKEN_EOF) {
           System.out.println(token.toString());
           token = lexer.nextToken();
@@ -99,12 +134,17 @@ public class Tiger
 
     // /////////////////////////////////////////////////////////
     // normal compilation phases.
+
     Program.T theAst = null;
 
     // parsing the file, get an AST.
     try {
       fstream = new BufferedInputStream(new FileInputStream(fname));
-      parser = new Parser(fname, fstream);
+
+      pstream = new PushbackInputStream(fstream);
+      
+      parser = new Parser(fname, pstream);
+
 
       theAst = parser.parse();
 
@@ -114,11 +154,13 @@ public class Tiger
       System.exit(1);
     }
 
+
     // pretty printing the AST, if necessary
     if (dumpAst) {
       ast.PrettyPrintVisitor pp = new ast.PrettyPrintVisitor();
       theAst.accept(pp);
     }
+
 
     // elaborate the AST, report all possible errors.
     elaborator.ElaboratorVisitor elab = new elaborator.ElaboratorVisitor();

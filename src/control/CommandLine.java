@@ -130,6 +130,7 @@ public class CommandLine
                   Control.ConLexer.test = true;
                   return;
                 }));
+
   }
 
   // scan the command line arguments, return the file name
@@ -156,7 +157,10 @@ public class CommandLine
           continue;
 
         found = true;
+
+
         String theArg = null;
+
         switch (arg.kind) {
         case Empty:
           arg.action.f(null);
@@ -164,12 +168,14 @@ public class CommandLine
         default:
           if (i >= cargs.length - 1) {
             System.out.println("Error: " + cargs[i] + ": requires an argument");
+
             this.output();
             System.exit(1);
           }
           i++;
           break;
         }
+
 
         theArg = cargs[i];
         switch (arg.kind) {
@@ -180,6 +186,7 @@ public class CommandLine
             arg.action.f(new Boolean(false));
           else {
             System.out.println("Error: " + arg.name + ": requires a boolean");
+
             this.output();
             System.exit(1);
           }
@@ -189,7 +196,9 @@ public class CommandLine
           try {
             num = Integer.parseInt(theArg);
           } catch (java.lang.NumberFormatException e) {
+
             System.out.println("Error: " + arg.name + ": requires an integer");
+
             this.output();
             System.exit(1);
           }

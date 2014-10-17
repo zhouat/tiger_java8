@@ -42,6 +42,8 @@ public class ElaboratorVisitor implements ast.Visitor
   public ClassTable classTable; // symbol table for class
   public MethodTable methodTable; // symbol table for each method
   public String currentClass; // the class name being elaborated
+  public String currentMethod;
+  
   public Type.T type; // type of the expression being elaborated
 
   public ElaboratorVisitor()
@@ -60,19 +62,55 @@ public class ElaboratorVisitor implements ast.Visitor
 
   // /////////////////////////////////////////////////////
   // expressions
+  //public Add(T left, T right)
   @Override
   public void visit(Add e)
   {
+	  Type.T type;
+	  e.left.accept(this);
+	  type = this.type;
+	  e.right.accept(this);
+	  if(!type.toString().equals(this.type.toString()))
+	  {
+		  error();
+	  }
+	  if(!this.type.toString().equals("@int"))
+	  {
+		  error();
+	  }
+	  
   }
 
+  //public And(T left, T right)
+  
   @Override
   public void visit(And e)
   {
+	  Type.T ty;  
+//	  System.out.println("And");
+	  e.left.accept(this);
+	  ty = this.type;
+	  e.right.accept(this);
+	  if(!this.type.toString().equals("@boolean")|| !this.type.toString().equals(ty.toString()))
+		  error();
+	  return;
   }
 
+  // public ArraySelect(T array, T index)
   @Override
   public void visit(ArraySelect e)
   {
+	 Type.T ty;
+	 e.array.accept(this);
+	 ty=this.type;
+	 
+	 e.index.accept(this);
+	 if(!this.type.toString().equals("@int"))
+	 {
+		 error();
+	 }
+	 this.type = new Type.Int();
+	 return;
   }
 
   @Override
@@ -96,6 +134,7 @@ public class ElaboratorVisitor implements ast.Visitor
       declaredArgTypes.add(((Dec.DecSingle)dec).type);
     }
     java.util.LinkedList<Type.T> argsty = new LinkedList<Type.T>();
+    if(e.args!=null)
     for (Exp.T a : e.args) {
       a.accept(this);
       argsty.addLast(this.type);
@@ -110,6 +149,8 @@ public class ElaboratorVisitor implements ast.Visitor
     // to a method expecting a type "B", whenever type "A" is
     // a sub-class of type "B".
     // Modify the following code accordingly:
+    if (mty.argsType.size() != argsty.size())
+      error();
     for (int i = 0; i < argsty.size(); i++) {
       Dec.DecSingle dec = (Dec.DecSingle) mty.argsType.get(i);
       if (dec.type.toString().equals(argsty.get(i).toString()))
@@ -120,6 +161,7 @@ public class ElaboratorVisitor implements ast.Visitor
     this.type = mty.retType;
     // the following two types should be the declared types.
     e.at = declaredArgTypes;
+    e.at = argsty;
     e.rt = this.type;
     return;
   }
@@ -127,6 +169,8 @@ public class ElaboratorVisitor implements ast.Visitor
   @Override
   public void visit(False e)
   {
+	  this.type = new Type.Boolean();
+	  return;
   }
 
   @Override
@@ -149,9 +193,12 @@ public class ElaboratorVisitor implements ast.Visitor
     return;
   }
 
+  //public Length(T array)
   @Override
   public void visit(Length e)
   {
+	  e.array.accept(this);
+	  this.type = new Type.Int(); 
   }
 
   @Override
@@ -169,18 +216,32 @@ public class ElaboratorVisitor implements ast.Visitor
   @Override
   public void visit(NewIntArray e)
   {
+	  //System.out.println("NewIntArray");
+	  e.exp.accept(this);
+	  this.type = new Type.IntArray();
+	  
+	  return;
   }
 
+  //public NewObject(String id)
+  
   @Override
   public void visit(NewObject e)
   {
+	  
     this.type = new Type.ClassType(e.id);
+   
     return;
+      
   }
 
   @Override
   public void visit(Not e)
   {
+
+//	  System.out.println("Not");
+	  e.exp.accept(this);
+	  this.type = new Type.Boolean();
   }
 
   @Override
@@ -224,9 +285,12 @@ public class ElaboratorVisitor implements ast.Visitor
   @Override
   public void visit(True e)
   {
+	  this.type = new Type.Boolean();
+	  return;
   }
 
   // statements
+  //public Assign(String id, Exp.T exp)
   @Override
   public void visit(Assign s)
   {
@@ -238,24 +302,59 @@ public class ElaboratorVisitor implements ast.Visitor
     if (type == null)
       error();
     s.exp.accept(this);
-    s.type = type;
-    this.type.toString().equals(type.toString());
+    
+    //s.type = type;   
+    //?? 没用 this.type.toString().equals(type.toString());
+    if(!this.type.toString().equals(type.toString()))
+    {
+    	error();
+    }
+    
     return;
   }
 
+  //public AssignArray(String id, Exp.T index, Exp.T exp)
+  
   @Override
   public void visit(AssignArray s)
   {
+	  
+	  Type.T ty=this.methodTable.get(s.id);
+	  
+	  if(ty==null)
+		  ty=this.classTable.get(this.currentClass, s.id);
+	  if(ty==null)
+		  error();
+	  
+	  s.index.accept(this);
+	  if(!this.type.toString().equals("@int"))
+		  error();
+	  
+	  s.exp.accept(this);
+	  if(ty.toString().equals("@int[]"))
+	  {
+		  if(!this.type.toString().equals("@int"))
+			  error();
+	  }
+	  
   }
 
   @Override
   public void visit(Block s)
   {
+
+	 for (Stm.T stm : s.stms) {
+		stm.accept(this);
+	}
+
   }
 
   @Override
   public void visit(If s)
   {
+
+	//public If(Exp.T condition, T thenn, T elsee)
+
     s.condition.accept(this);
     if (!this.type.toString().equals("@boolean"))
       error();
@@ -276,41 +375,79 @@ public class ElaboratorVisitor implements ast.Visitor
   @Override
   public void visit(While s)
   {
+
+	  //public While(Exp.T condition, T body)
+	  s.condition.accept(this);
+	 
+	  if(!this.type.toString().equals("@boolean"))
+	  {
+		  error();
+	  }
+	  s.body.accept(this);	  	
+
   }
 
   // type
   @Override
   public void visit(Type.Boolean t)
   {
+
+	  System.out.println("Boolean");
+	  error();
+
   }
 
   @Override
   public void visit(Type.ClassType t)
   {
+
+	  System.out.println("ClassType");
+	  error();
+
   }
 
   @Override
   public void visit(Type.Int t)
   {
-    System.out.println("aaaa");
+
+    System.out.println("Int");
+    error();
+
   }
 
   @Override
   public void visit(Type.IntArray t)
   {
+	  System.out.println("IntArray");
+	  error();
   }
 
   // dec
   @Override
   public void visit(Dec.DecSingle d)
   {
+	  System.out.println("DecSingle");
+	  error();
   }
 
+  /*
+   *public Type.T retType;
+  	public String id;
+  	public LinkedList<Dec.T> formals;
+  	public LinkedList<Dec.T> locals;
+  	public LinkedList<Stm.T> stms;
+  	public Exp.T retExp;
+  */
   // method
   @Override
   public void visit(Method.MethodSingle m)
   {
     // construct the method table
+
+	  
+	this.currentMethod = m.id.toString();
+	this.methodTable = new  MethodTable();
+	  
     this.methodTable.put(m.formals, m.locals);
 
     if (ConAst.elabMethodTable)

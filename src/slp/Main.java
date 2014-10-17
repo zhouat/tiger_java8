@@ -1,5 +1,6 @@
 package slp;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.HashSet;
 
