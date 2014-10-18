@@ -71,6 +71,7 @@ public class Tiger
       System.out.println("Testing the Tiger compiler on Fac.java finished.");
       System.exit(1);
     }
+ 
     
     if (fname == null) {
         cmd.usage();

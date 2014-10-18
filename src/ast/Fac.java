@@ -96,6 +96,7 @@ static MainClass.T factorial = new MainClassSingle
   // Lab2, exercise 2: you should write some code to
   // represent the program "test/Sum.java".
   // Your code here:
+  /*
   static MainClass.T Sum = new MainClassSingle
 (
 	"Sum", "a", new Print
@@ -147,9 +148,10 @@ static MainClass.T factorial = new MainClassSingle
 	  )
     )
 );
+*/
   // program
-  public static Program.T prog = new ProgramSingle(Sum,
-      new util.Flist<ast.Ast.Class.T>().list(doit)); 
+  public static Program.T prog = new ProgramSingle(factorial,
+      new util.Flist<ast.Ast.Class.T>().list(fac)); 
   
   
 }
