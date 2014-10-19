@@ -29,16 +29,9 @@ class TV {
 	ntb = root.Insert(14) ;
 	ntb = root.Print();
 	System.out.println(100000000);
-<<<<<<< HEAD
 	v = new MyVisitor();
 	System.out.println(50000000);
 	nti = root.accept(v);
-=======
-	
-	v = new MyVisitor();
-	System.out.println(50000000);
-	//nti = root.accept(v);
->>>>>>> Lab2
 	System.out.println(100000000);
 	System.out.println(root.Search(24));
 	System.out.println(root.Search(12));

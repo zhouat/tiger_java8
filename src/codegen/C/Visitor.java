@@ -6,6 +6,7 @@ import codegen.C.Ast.Exp.Add;
 import codegen.C.Ast.Exp.And;
 import codegen.C.Ast.Exp.ArraySelect;
 import codegen.C.Ast.Exp.Call;
+import codegen.C.Ast.Exp.False;
 import codegen.C.Ast.Exp.Id;
 import codegen.C.Ast.Exp.Length;
 import codegen.C.Ast.Exp.Lt;
@@ -16,6 +17,7 @@ import codegen.C.Ast.Exp.Num;
 import codegen.C.Ast.Exp.Sub;
 import codegen.C.Ast.Exp.This;
 import codegen.C.Ast.Exp.Times;
+import codegen.C.Ast.Exp.True;
 import codegen.C.Ast.MainMethod.MainMethodSingle;
 import codegen.C.Ast.Method.MethodSingle;
 import codegen.C.Ast.Program.ProgramSingle;
@@ -27,6 +29,7 @@ import codegen.C.Ast.Stm.Print;
 import codegen.C.Ast.Stm.While;
 import codegen.C.Ast.Type.ClassType;
 import codegen.C.Ast.Type.Int;
+import codegen.C.Ast.Type.Boolean;
 import codegen.C.Ast.Type.IntArray;
 import codegen.C.Ast.Vtable.VtableSingle;
 
@@ -41,6 +44,8 @@ public interface Visitor
 
   public void visit(Call e);
 
+  public void visit(False e);
+  
   public void visit(Id e);
 
   public void visit(Length e);
@@ -60,6 +65,8 @@ public interface Visitor
   public void visit(This e);
 
   public void visit(Times e);
+  
+  public void visit(True e);
 
   // statements
   public void visit(Assign s);
@@ -75,6 +82,8 @@ public interface Visitor
   public void visit(While s);
 
   // type
+  public void visit(Boolean t);
+  
   public void visit(ClassType t);
 
   public void visit(Int t);
@@ -98,4 +107,5 @@ public interface Visitor
 
   // program
   public void visit(ProgramSingle p);
+
 }
