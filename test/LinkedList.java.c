@@ -70,6 +70,10 @@ int Element_Init(struct Element * this, int v_Age, int v_Salary, int v_Married)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   Age = v_Age;
   Salary = v_Salary;
@@ -84,6 +88,10 @@ int Element_GetAge(struct Element * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return Age;
 }
@@ -95,6 +103,10 @@ int Element_GetSalary(struct Element * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return Salary;
 }
@@ -106,6 +118,10 @@ int Element_GetMarried(struct Element * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return Married;
 }
@@ -117,6 +133,10 @@ int Element_Equal(struct Element * this, struct Element * other)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   int ret_val;
   int aux01;
   int aux02;
@@ -167,6 +187,10 @@ int Element_Compare(struct Element * this, int num1, int num2)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   int retval;
   int aux02;
 
@@ -193,6 +217,10 @@ int List_Init(struct List * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   end = true;
   return true;
@@ -205,6 +233,10 @@ int List_InitNew(struct List * this, struct Element * v_elem, struct List * v_ne
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   end = v_end;
   elem = v_elem;
@@ -219,6 +251,10 @@ struct List * List_Insert(struct List * this, struct Element * new_elem)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   int ret_val;
   struct List * aux03;
   struct List * aux02;
@@ -237,6 +273,10 @@ int List_SetNext(struct List * this, struct List * v_next)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   next = v_next;
   return true;
@@ -249,6 +289,10 @@ struct List * List_Delete(struct List * this, struct Element * e)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   struct List * my_head;
   int ret_val;
   int aux05;
@@ -309,6 +353,10 @@ int List_Search(struct List * this, struct Element * e)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   int int_ret_val;
   struct List * aux01;
   struct Element * var_elem;
@@ -344,6 +392,10 @@ int List_GetEnd(struct List * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return end;
 }
@@ -355,6 +407,10 @@ struct Element * List_GetElem(struct List * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return elem;
 }
@@ -366,6 +422,10 @@ struct List * List_GetNext(struct List * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
 
   return next;
 }
@@ -377,6 +437,10 @@ int List_Print(struct List * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   struct List * aux01;
   int var_end;
   struct Element * var_elem;
@@ -404,6 +468,10 @@ int LL_Start(struct LL * this)
 #define elem ( this-> elem )
 #define next ( this-> next )
 #define end ( this-> end )
+extern struct LinkedList_vtable LinkedList_vtable_;
+extern struct Element_vtable Element_vtable_;
+extern struct List_vtable List_vtable_;
+extern struct LL_vtable LL_vtable_;
   struct List * head;
   struct List * last_elem;
   int aux01;

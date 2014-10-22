@@ -46,5 +46,8 @@ void *Tiger_new_array (int length)
 {
   // You can use the C "malloc" facilities, as above.
   // Your code here:
+  char *p =(char*)malloc(length + sizeof(int*));	
+  *((int*)&p[0])=length;
+  return &p[4];	
   
 }

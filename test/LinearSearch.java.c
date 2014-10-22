@@ -108,7 +108,7 @@ int LS_Init(struct LS * this, int sz)
   int aux02;
 
   size = sz;
-  number = (int*)malloc(sz);
+  number = (int*)Tiger_new_array(sz);
   j = 1;
   k = size + 1;
   while(j < size){

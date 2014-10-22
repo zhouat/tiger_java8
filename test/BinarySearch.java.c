@@ -117,7 +117,7 @@ int BS_Search(struct BS * this, int num)
 
   aux01 = 0;
   bs01 = false;
-  right = number.length;
+  right = number[-1];
   right = right - 1;
   left = 0;
   var_cont = true;
@@ -215,7 +215,7 @@ int BS_Init(struct BS * this, int sz)
   int aux01;
 
   size = sz;
-  number = (int*)malloc(sz);
+  number = (int*)Tiger_new_array(sz);
   j = 1;
   k = size + 1;
   while(j < size){

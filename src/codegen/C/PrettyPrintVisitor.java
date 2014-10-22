@@ -184,7 +184,7 @@ public class PrettyPrintVisitor implements Visitor
   {
 	  //error(getLineNumber());
 	  e.array.accept(this);
-	  this.say(".length");
+	  this.say("[-1]");
 	  
   }
 
@@ -202,7 +202,7 @@ public class PrettyPrintVisitor implements Visitor
   {
 	  //error(getLineNumber());
 	  
-	  this.say("(int*)malloc(");
+	  this.say("(int*)Tiger_new_array(");
 	  e.exp.accept(this);
 	  this.say(")");
   }
@@ -415,6 +415,15 @@ public class PrettyPrintVisitor implements Visitor
     	this.sayln(tmp);
 	}
     
+    for (String str : class_id_list) {
+    	tmp="extern struct VALUE_vtable VALUE_vtable_;";
+    	tmp=tmp.replaceAll("VALUE", str);
+		this.sayln(tmp);
+	}
+    
+    
+    
+    
     for (Dec.T d : m.locals) {
       DecSingle dec = (DecSingle) d;
       this.say("  ");
@@ -476,11 +485,14 @@ public class PrettyPrintVisitor implements Visitor
   }
 
   LinkedList<String> id_list=new LinkedList<>();
-		  
+  LinkedList<String> class_id_list=new LinkedList<>();
+  
+  
   // class
   @Override
   public void visit(ClassSingle c)
   {
+	class_id_list.add(c.id);  
     this.sayln("struct " + c.id);
     this.sayln("{");
     this.sayln("  struct " + c.id + "_vtable *vptr;");

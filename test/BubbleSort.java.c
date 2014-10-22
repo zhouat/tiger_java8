@@ -102,7 +102,7 @@ int BBS_Init(struct BBS * this, int sz)
 #define size ( this-> size )
 
   size = sz;
-  number = (int*)malloc(sz);
+  number = (int*)Tiger_new_array(sz);
   number[0] = 20;
   number[1] = 7;
   number[2] = 12;

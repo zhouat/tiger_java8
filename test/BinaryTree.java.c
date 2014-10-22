@@ -66,6 +66,9 @@ int BT_Start(struct BT * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   struct Tree * root;
   int ntb;
   int nti;
@@ -120,6 +123,9 @@ int Tree_Init(struct Tree * this, int v_key)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   key = v_key;
   has_left = false;
@@ -134,6 +140,9 @@ int Tree_SetRight(struct Tree * this, struct Tree * rn)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   right = rn;
   return true;
@@ -146,6 +155,9 @@ int Tree_SetLeft(struct Tree * this, struct Tree * ln)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   left = ln;
   return true;
@@ -158,6 +170,9 @@ struct Tree * Tree_GetRight(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   return right;
 }
@@ -169,6 +184,9 @@ struct Tree * Tree_GetLeft(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   return left;
 }
@@ -180,6 +198,9 @@ int Tree_GetKey(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   return key;
 }
@@ -191,6 +212,9 @@ int Tree_SetKey(struct Tree * this, int v_key)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   key = v_key;
   return true;
@@ -203,6 +227,9 @@ int Tree_GetHas_Right(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   return has_right;
 }
@@ -214,6 +241,9 @@ int Tree_GetHas_Left(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   return has_left;
 }
@@ -225,6 +255,9 @@ int Tree_SetHas_Left(struct Tree * this, int val)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   has_left = val;
   return true;
@@ -237,6 +270,9 @@ int Tree_SetHas_Right(struct Tree * this, int val)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
 
   has_right = val;
   return true;
@@ -249,6 +285,9 @@ int Tree_Compare(struct Tree * this, int num1, int num2)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int ntb;
   int nti;
 
@@ -275,6 +314,9 @@ int Tree_Insert(struct Tree * this, int v_key)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   struct Tree * new_node;
   int ntb;
   int cont;
@@ -328,6 +370,9 @@ int Tree_Delete(struct Tree * this, int v_key)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   struct Tree * current_node;
   struct Tree * parent_node;
   int cont;
@@ -399,6 +444,9 @@ int Tree_Remove(struct Tree * this, struct Tree * p_node, struct Tree * c_node)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int ntb;
   int auxkey1;
   int auxkey2;
@@ -445,6 +493,9 @@ int Tree_RemoveRight(struct Tree * this, struct Tree * p_node, struct Tree * c_n
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int ntb;
   struct Tree * x_51;
   struct Tree * x_52;
@@ -471,6 +522,9 @@ int Tree_RemoveLeft(struct Tree * this, struct Tree * p_node, struct Tree * c_no
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int ntb;
   struct Tree * x_58;
   struct Tree * x_59;
@@ -497,6 +551,9 @@ int Tree_Search(struct Tree * this, int v_key)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int cont;
   int ifound;
   struct Tree * current_node;
@@ -545,6 +602,9 @@ int Tree_Print(struct Tree * this)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   struct Tree * current_node;
   int ntb;
   struct Tree * x_70;
@@ -561,6 +621,9 @@ int Tree_RecPrint(struct Tree * this, struct Tree * node)
 #define has_left ( this-> has_left )
 #define has_right ( this-> has_right )
 #define my_null ( this-> my_null )
+extern struct BinaryTree_vtable BinaryTree_vtable_;
+extern struct BT_vtable BT_vtable_;
+extern struct Tree_vtable Tree_vtable_;
   int ntb;
   struct Tree * x_71;
   struct Tree * x_72;
