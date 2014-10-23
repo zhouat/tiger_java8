@@ -86,11 +86,12 @@ public class ElaboratorVisitor implements ast.Visitor
 	  }
 	  if(!this.type.toString().equals("@int"))
 	  {
-		  error(getLineNumber());;
+		  error(getLineNumber());
 	  }
 	  
   }
 
+  
   //public And(T left, T right)
   
   @Override
@@ -102,7 +103,7 @@ public class ElaboratorVisitor implements ast.Visitor
 	  ty = this.type;
 	  e.right.accept(this);
 	  if(!this.type.toString().equals("@boolean")|| !this.type.toString().equals(ty.toString()))
-		  error(getLineNumber());;
+		  error(getLineNumber());
 	  return;
   }
 
@@ -117,12 +118,34 @@ public class ElaboratorVisitor implements ast.Visitor
 	 e.index.accept(this);
 	 if(!this.type.toString().equals("@int"))
 	 {
-		 error(getLineNumber());;
+		 error(getLineNumber());
 	 }
 	 this.type = new Type.Int();
 	 return;
   }
 
+  // judge the sub class
+  public boolean SubClass(Dec.DecSingle dec, Type.T argsty) 
+  {
+	  
+	  //System.out.println(" [->] "+dec.type +" [->] "+ argsty.toString());
+	  //this.classTable.get(dec.type.toString());
+	  
+	  ClassBinding cb = this.classTable.get(argsty.toString());
+	  
+	  String pClass=null;
+	  
+	  while (cb.extendss != null) {// search all parent classes until found or fail
+		  
+		  if(cb.extendss.equals(dec.type.toString()))
+		  return true;
+		  
+		  cb = this.classTable.get(argsty.toString());
+	  }
+	  
+	  return false;
+  }
+  
   @Override
   public void visit(Call e)
   {
@@ -135,7 +158,7 @@ public class ElaboratorVisitor implements ast.Visitor
       ty = (ClassType) leftty;
       e.type = ty.id;
     } else
-      error(getLineNumber());;
+      error(getLineNumber());
     MethodType mty = this.classTable.getm(ty.id, e.id);
 
     java.util.LinkedList<Type.T> declaredArgTypes
@@ -150,7 +173,7 @@ public class ElaboratorVisitor implements ast.Visitor
       argsty.addLast(this.type);
     }
     if (declaredArgTypes.size() != argsty.size())
-      error(getLineNumber());;
+      error(getLineNumber());
     // For now, the following code only checks that
     // the types for actual and formal arguments should
     // be the same. However, in MiniJava, the actual type
@@ -160,13 +183,19 @@ public class ElaboratorVisitor implements ast.Visitor
     // a sub-class of type "B".
     // Modify the following code accordingly:
     if (mty.argsType.size() != argsty.size())
-      error(getLineNumber());;
+      error(getLineNumber());
+    
     for (int i = 0; i < argsty.size(); i++) {
       Dec.DecSingle dec = (Dec.DecSingle) mty.argsType.get(i);
-      if (dec.type.toString().equals(argsty.get(i).toString()))
-        ;
+      if (dec.type.toString().equals(argsty.get(i).toString())) 
+      { 
+      }
       else
-        error(getLineNumber());;
+      {
+    	  if(!SubClass(dec,argsty.get(i)))
+    		  
+    		  error(getLineNumber());
+      }
     }
     this.type = mty.retType;
     // the following two types should be the declared types.
@@ -196,7 +225,7 @@ public class ElaboratorVisitor implements ast.Visitor
       e.isField = true;
     }
     if (type == null)
-      error(getLineNumber());;
+      error(getLineNumber());
     this.type = type;
     // record this type on this node for future use.
     e.type = type;
@@ -218,7 +247,7 @@ public class ElaboratorVisitor implements ast.Visitor
     Type.T ty = this.type;
     e.right.accept(this);
     if (!this.type.toString().equals(ty.toString()))
-      error(getLineNumber());;
+      error(getLineNumber());
     this.type = new Type.Boolean();
     return;
   }
@@ -268,7 +297,7 @@ public class ElaboratorVisitor implements ast.Visitor
     Type.T leftty = this.type;
     e.right.accept(this);
     if (!this.type.toString().equals(leftty.toString()))
-      error(getLineNumber());;
+      error(getLineNumber());
     this.type = new Type.Int();
     return;
   }
@@ -287,7 +316,7 @@ public class ElaboratorVisitor implements ast.Visitor
     Type.T leftty = this.type;
     e.right.accept(this);
     if (!this.type.toString().equals(leftty.toString()))
-      error(getLineNumber());;
+      error(getLineNumber());
     this.type = new Type.Int();
     return;
   }
@@ -310,14 +339,14 @@ public class ElaboratorVisitor implements ast.Visitor
     if (type == null)
       type = this.classTable.get(this.currentClass, s.id);
     if (type == null)
-      error(getLineNumber());;
+      error(getLineNumber());
     s.exp.accept(this);
     
     //s.type = type;   
     //?? 没用 this.type.toString().equals(type.toString());
     if(!this.type.toString().equals(type.toString()))
     {
-    	error(getLineNumber());;
+    	error(getLineNumber());
     }
     
     return;
@@ -334,17 +363,17 @@ public class ElaboratorVisitor implements ast.Visitor
 	  if(ty==null)
 		  ty=this.classTable.get(this.currentClass, s.id);
 	  if(ty==null)
-		  error(getLineNumber());;
+		  error(getLineNumber());
 	  
 	  s.index.accept(this);
 	  if(!this.type.toString().equals("@int"))
-		  error(getLineNumber());;
+		  error(getLineNumber());
 	  
 	  s.exp.accept(this);
 	  if(ty.toString().equals("@int[]"))
 	  {
 		  if(!this.type.toString().equals("@int"))
-			  error(getLineNumber());;
+			  error(getLineNumber());
 	  }
 	  
   }
@@ -367,7 +396,7 @@ public class ElaboratorVisitor implements ast.Visitor
 
     s.condition.accept(this);
     if (!this.type.toString().equals("@boolean"))
-      error(getLineNumber());;
+      error(getLineNumber());
     s.thenn.accept(this);
     s.elsee.accept(this);
     return;
@@ -378,7 +407,7 @@ public class ElaboratorVisitor implements ast.Visitor
   {
     s.exp.accept(this);
     if (!this.type.toString().equals("@int"))
-      error(getLineNumber());;
+      error(getLineNumber());
     return;
   }
 
@@ -391,7 +420,7 @@ public class ElaboratorVisitor implements ast.Visitor
 	 
 	  if(!this.type.toString().equals("@boolean"))
 	  {
-		  error(getLineNumber());;
+		  error(getLineNumber());
 	  }
 	  s.body.accept(this);	  	
 
@@ -403,7 +432,7 @@ public class ElaboratorVisitor implements ast.Visitor
   {
 
 	  System.out.println("Boolean");
-	  error(getLineNumber());;
+	  error(getLineNumber());
 
   }
 
@@ -412,7 +441,7 @@ public class ElaboratorVisitor implements ast.Visitor
   {
 
 	  System.out.println("ClassType");
-	  error(getLineNumber());;
+	  error(getLineNumber());
 
   }
 
@@ -421,7 +450,7 @@ public class ElaboratorVisitor implements ast.Visitor
   {
 
     System.out.println("Int");
-    error(getLineNumber());;
+    error(getLineNumber());
 
   }
 
@@ -429,7 +458,7 @@ public class ElaboratorVisitor implements ast.Visitor
   public void visit(Type.IntArray t)
   {
 	  System.out.println("IntArray");
-	  error(getLineNumber());;
+	  error(getLineNumber());
   }
 
   // dec
@@ -437,7 +466,7 @@ public class ElaboratorVisitor implements ast.Visitor
   public void visit(Dec.DecSingle d)
   {
 	  System.out.println("DecSingle");
-	  error(getLineNumber());;
+	  error(getLineNumber());
   }
 
   /*
