@@ -20,7 +20,7 @@ public interface Visitor
   public void visit(Goto s);
 
   public void visit(Ificmplt s);
-
+  
   public void visit(Ifne s);
 
   public void visit(Iload s);
@@ -64,4 +64,6 @@ public interface Visitor
 
   // program
   public void visit(ProgramSingle p);
+
+
 }

@@ -49,7 +49,7 @@ public interface Visitor
   public void visit(Length e);
 
   public void visit(Lt e);
-
+  
   public void visit(NewIntArray e);
 
   public void visit(NewObject e);

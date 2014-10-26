@@ -2,6 +2,8 @@
 // Do NOT modify!
 
 // structures
+#define true 1
+#define false 0
 struct Factorial
 {
   struct Factorial_vtable *vptr;
@@ -24,13 +26,17 @@ struct Fac_vtable
 // methods
 int Fac_ComputeFac(struct Fac * this, int num)
 {
+extern struct Factorial_vtable Factorial_vtable_;
+extern struct Fac_vtable Fac_vtable_;
   int num_aux;
   struct Fac * x_1;
 
-  if (num < 1)
+  if (num < 1){
     num_aux = 1;
-  else
+  }
+  else{
     num_aux = num * (x_1=this, x_1->vptr->ComputeFac(x_1, num - 1));
+    }
   return num_aux;
 }
 

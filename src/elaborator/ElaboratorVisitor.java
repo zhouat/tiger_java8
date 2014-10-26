@@ -163,6 +163,7 @@ public class ElaboratorVisitor implements ast.Visitor
 
     java.util.LinkedList<Type.T> declaredArgTypes
     = new java.util.LinkedList<Type.T>();
+    if(mty!=null)
     for (Dec.T dec: mty.argsType){
       declaredArgTypes.add(((Dec.DecSingle)dec).type);
     }
@@ -173,7 +174,10 @@ public class ElaboratorVisitor implements ast.Visitor
       argsty.addLast(this.type);
     }
     if (declaredArgTypes.size() != argsty.size())
-      error(getLineNumber());
+    {
+    	System.out.println("[->]"+declaredArgTypes.size()+"[->]"+argsty.size());
+    	error(getLineNumber());
+    }
     // For now, the following code only checks that
     // the types for actual and formal arguments should
     // be the same. However, in MiniJava, the actual type
@@ -342,7 +346,7 @@ public class ElaboratorVisitor implements ast.Visitor
       error(getLineNumber());
     s.exp.accept(this);
     
-    //s.type = type;   
+    s.type = type;   
     //?? 没用 this.type.toString().equals(type.toString());
     if(!this.type.toString().equals(type.toString()))
     {
