@@ -5,4 +5,4 @@ c:
 J:
 	java -jar ../Jasper.jar *.class
 clean:
-	rm *.j *.class
+	rm -f *.j *.class *~
