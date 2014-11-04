@@ -33,6 +33,8 @@ public interface Visitor
 
   public void visit(Isub s);
 
+  public void visit(Iadd s);
+  
   public void visit(Invokevirtual s);
 
   public void visit(LabelJ s);
@@ -64,6 +66,8 @@ public interface Visitor
 
   // program
   public void visit(ProgramSingle p);
+
+
 
 
 }

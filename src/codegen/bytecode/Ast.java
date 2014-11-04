@@ -298,6 +298,20 @@ public class Ast
       }
     }
 
+    
+    public static class Iadd extends T
+    {
+      public Iadd()
+      {
+      }
+
+      @Override
+      public void accept(Visitor v)
+      {
+        v.visit(this);
+      }
+    }
+    
     public static class LabelJ extends T
     {
       public util.Label l;

@@ -2,6 +2,8 @@ package codegen.bytecode;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
+
+import ast.Ast.Exp.T;
 import util.Label;
 import codegen.bytecode.Ast.Class;
 import codegen.bytecode.Ast.Class.ClassSingle;
@@ -22,6 +24,7 @@ import codegen.bytecode.Ast.Stm.Ificmplt;
 import codegen.bytecode.Ast.Stm.Ifne;
 import codegen.bytecode.Ast.Stm.Iload;
 import codegen.bytecode.Ast.Stm.Imul;
+import codegen.bytecode.Ast.Stm.Iadd;
 import codegen.bytecode.Ast.Stm.Invokevirtual;
 import codegen.bytecode.Ast.Stm.Ireturn;
 import codegen.bytecode.Ast.Stm.Istore;
@@ -31,7 +34,7 @@ import codegen.bytecode.Ast.Stm.Ldc;
 import codegen.bytecode.Ast.Stm.New;
 import codegen.bytecode.Ast.Stm.Print;
 import codegen.bytecode.Ast.Type;
-import codegen.bytecode.Ast.Type.Int;
+import codegen.bytecode.Ast.Type.*;
 
 // Given a Java ast, translate it into Java bytecode.
 
@@ -51,7 +54,7 @@ public class TranslateVisitor implements ast.Visitor
   public TranslateVisitor()
   {
     this.classId = null;
-    this.indexTable = null;
+    this.indexTable = new Hashtable<>();
     this.type = null;
     this.dec = null;
     this.stms = new LinkedList<Stm.T>();
@@ -78,10 +81,14 @@ public class TranslateVisitor implements ast.Visitor
   
   // /////////////////////////////////////////////////////
   // expressions
+  // public Add(T left, T right)
   @Override
   public void visit(ast.Ast.Exp.Add e)
   {
-	  System.out.println("imple  ->"+getLineNumber());
+	  //System.out.println("imple  ->"+getLineNumber());
+	  e.left.accept(this);
+	  e.right.accept(this);
+	  emit(new Iadd());
   }
 
   @Override
@@ -103,6 +110,7 @@ public class TranslateVisitor implements ast.Visitor
   public void visit(ast.Ast.Exp.Call e)
   {
     e.exp.accept(this);
+    if(e.args!=null)
     for (ast.Ast.Exp.T x : e.args) {
       x.accept(this);
     }
@@ -161,7 +169,7 @@ public class TranslateVisitor implements ast.Visitor
 	  e.left.accept(this);
 	  e.right.accept(this);
 	  emit(new Ificmplt(g_label));
-
+	  g_label=null;
 	  
 	  return;
   }
@@ -252,7 +260,11 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Stm.Block s)
   {
-	  System.out.println("imple  ->"+getLineNumber());
+	  //System.out.println("imple  ->"+getLineNumber());
+	  for (ast.Ast.Stm.T stm : s.stms) 
+	  {
+		stm.accept(this);
+	  }
   }
 
   Label g_label;
@@ -277,14 +289,12 @@ public class TranslateVisitor implements ast.Visitor
 			endLabel  = new Label(); 
 	  g_label=succLabel;
 	  s.condition.accept(this);
-	  
 	  s.elsee.accept(this);
 	  emit(new Goto(endLabel));
-	  
 	  emit(new LabelJ(succLabel));
 	  s.thenn.accept(this);
-
 	  emit(new LabelJ(endLabel));
+	  
     return;
   }
 
@@ -300,11 +310,23 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Stm.While s)
   {
-	  System.out.println("imple  ->"+getLineNumber());
+//	  System.out.println("imple  ->"+getLineNumber());
+	  
+	  Label origLabel  = new Label(),  
+            succlLabel = new Label(), 
+			endLabel   = new Label();
+	  g_label=succlLabel;
+	  emit(new LabelJ(origLabel));
 	  
 	  s.condition.accept(this);
+	  emit(new Goto(endLabel));
+	  emit(new LabelJ(succlLabel));
+	  s.body.accept(this);
+	  emit(new Goto(origLabel));
 	  
+	  emit(new LabelJ(endLabel));
 	  
+	  return;
   }
 
   // type
@@ -312,12 +334,16 @@ public class TranslateVisitor implements ast.Visitor
   public void visit(ast.Ast.Type.Boolean t)
   {
 	  System.out.println("imple  ->"+getLineNumber());
+	  
   }
 
+  // public ClassType(String id)
   @Override
   public void visit(ast.Ast.Type.ClassType t)
   {
-	  System.out.println("imple  ->"+getLineNumber());
+	  //System.out.println("imple  ->"+getLineNumber());
+	  
+	  
   }
 
   @Override
@@ -329,7 +355,10 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Type.IntArray t)
   {
-	  System.out.println("imple  ->"+getLineNumber());
+	  //System.out.println("imple  ->"+getLineNumber());
+	  
+	  this.type = new IntArray(); 
+	  
   }
 
   // dec

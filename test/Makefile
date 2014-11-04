@@ -1,5 +1,5 @@
 j:
-	java -cp ../bin Tiger Factorial.java -codegen bytecode
+	java -cp ../bin Tiger BinaryTree.java -codegen bytecode
 c:
 	java -jar ../jasmin.jar *.j
 J:

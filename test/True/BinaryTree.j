@@ -1,5 +1,5 @@
-.source                  Factorial.java
-.class                   Factorial
+.source                  BinaryTree.java
+.class                   BinaryTree
 .super                   java/lang/Object
 
 
@@ -17,11 +17,10 @@
    .limit locals         1
    .line                 3
    getstatic             java/lang/System/out Ljava/io/PrintStream;
-   new                   Fac
+   new                   BT
    dup                   
-   invokespecial         Fac/<init>()V
-   bipush                10
-   invokevirtual         Fac/ComputeFac(I)I
+   invokespecial         BT/<init>()V
+   invokevirtual         BT/Start()I
    invokevirtual         java/io/PrintStream/println(I)V
    .line                 4
    return                
