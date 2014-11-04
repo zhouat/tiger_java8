@@ -82,7 +82,7 @@ public class ClassTable
 
   public void dump()
   {
-    new Todo();
+    System.out.println(this.table);
   }
 
   @Override

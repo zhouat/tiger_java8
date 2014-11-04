@@ -1,0 +1,15 @@
+!SESSION 2014-10-11 08:40:14.989 -----------------------------------------------
+eclipse.buildId=v22.6.2-1085508
+java.version=1.6.0_06-p
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -data /home/zhouat/workspace/tiger_java8 -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.ui.ide 4 4 2014-10-11 08:49:09.176
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2014-10-11 08:49:09.182
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2014-10-11 08:49:09.182
+!MESSAGE The project description file (.project) for 'tiger_java8_Lab1' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.

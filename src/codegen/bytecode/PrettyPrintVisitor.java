@@ -9,6 +9,8 @@ import codegen.bytecode.Ast.Dec.DecSingle;
 import codegen.bytecode.Ast.Method.MethodSingle;
 import codegen.bytecode.Ast.Program.ProgramSingle;
 import codegen.bytecode.Ast.Stm;
+import codegen.bytecode.Ast.Stm.Iadd;
+import codegen.bytecode.Ast.Stm.Ificmplt;
 import codegen.bytecode.Ast.Type;
 import codegen.bytecode.Ast.Type.ClassType;
 import codegen.bytecode.Ast.Type.Int;
@@ -148,6 +150,15 @@ public class PrettyPrintVisitor implements Visitor
     return;
   }
 
+  @Override
+  public void visit(Iadd s) {
+  	// TODO Auto-generated method stub
+  	
+	this.isayln("iadd");  
+	return;
+	
+  }
+  
   @Override
   public void visit(LabelJ s)
   {

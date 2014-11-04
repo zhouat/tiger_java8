@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+<<<<<<< HEAD
 extern void Tiger_heap_init (int);
 
 int main (int argc, char **argv)
@@ -23,4 +24,9 @@ int main (int argc, char **argv)
 
   // enter Java code...
   Tiger_main ();
+=======
+int main (int argc, char **argv)
+{
+  Tiger_main ();	
+>>>>>>> Lab3
 }

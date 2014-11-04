@@ -1,19 +1,13 @@
 package codegen.C;
 
 import java.util.LinkedList;
-
+import sun.font.TrueTypeFont;
+import ast.Ast.Stm.T;
 import codegen.C.Ast.Class;
 import codegen.C.Ast.Class.ClassSingle;
 import codegen.C.Ast.Dec;
 import codegen.C.Ast.Exp;
-import codegen.C.Ast.Exp.Call;
-import codegen.C.Ast.Exp.Id;
-import codegen.C.Ast.Exp.Lt;
-import codegen.C.Ast.Exp.NewObject;
-import codegen.C.Ast.Exp.Num;
-import codegen.C.Ast.Exp.Sub;
-import codegen.C.Ast.Exp.This;
-import codegen.C.Ast.Exp.Times;
+import codegen.C.Ast.Exp.*;
 import codegen.C.Ast.MainMethod;
 import codegen.C.Ast.MainMethod.MainMethodSingle;
 import codegen.C.Ast.Method;
@@ -21,9 +15,8 @@ import codegen.C.Ast.Method.MethodSingle;
 import codegen.C.Ast.Program;
 import codegen.C.Ast.Program.ProgramSingle;
 import codegen.C.Ast.Stm;
-import codegen.C.Ast.Stm.Assign;
-import codegen.C.Ast.Stm.If;
-import codegen.C.Ast.Stm.Print;
+import codegen.C.Ast.Type.IntArray;
+import codegen.C.Ast.Stm.*;
 import codegen.C.Ast.Type;
 import codegen.C.Ast.Type.ClassType;
 import codegen.C.Ast.Vtable;
@@ -63,6 +56,16 @@ public class TranslateVisitor implements ast.Visitor
     this.program = null;
   }
 
+  private void error(int line)
+  {
+    System.out.println(" type mismatch "+String.valueOf(line));
+    System.exit(1);
+  }
+
+  public static int getLineNumber() {
+      return Thread.currentThread().getStackTrace()[2].getLineNumber();
+  }
+
   // //////////////////////////////////////////////////////
   //
   public String genId()
@@ -72,19 +75,50 @@ public class TranslateVisitor implements ast.Visitor
 
   // /////////////////////////////////////////////////////
   // expressions
+  //public Add(T left, T right)
   @Override
   public void visit(ast.Ast.Exp.Add e)
   {
+	  Exp.T left, right; 
+	  e.left.accept(this);
+	  left =  this.exp;
+	  e.right.accept(this);
+	  right = this.exp;
+	  
+	  this.exp = new Add(left, right);
+	  return;
   }
 
+  //public And(T left, T right)
   @Override
   public void visit(ast.Ast.Exp.And e)
   {
+	  Exp.T left, right;
+	  e.left.accept(this);
+	  left = this.exp;
+	  e.right.accept(this);
+	  right = this.exp;
+	  
+	  this.exp = new And(left, right);
+	  
+	  return;
   }
 
+  //  public ArraySelect(T array, T index)
   @Override
   public void visit(ast.Ast.Exp.ArraySelect e)
   {
+	  //error(getLineNumber());
+	  Exp.T array, index;
+	  
+	  e.array.accept(this);
+	  array = this.exp;
+	  
+	  e.index.accept(this);
+	  index = this.exp;
+	  
+	  this.exp = new ArraySelect(array, index);
+
   }
 
   @Override
@@ -95,6 +129,9 @@ public class TranslateVisitor implements ast.Visitor
     this.tmpVars.add(new Dec.DecSingle(new Type.ClassType(e.type), newid));
     Exp.T exp = this.exp;
     LinkedList<Exp.T> args = new LinkedList<Exp.T>();
+
+    
+    if(e.args!=null)
     for (ast.Ast.Exp.T x : e.args) {
       x.accept(this);
       args.add(this.exp);
@@ -106,6 +143,8 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Exp.False e)
   {
+	  this.exp = new False();
+
   }
 
   @Override
@@ -115,11 +154,16 @@ public class TranslateVisitor implements ast.Visitor
     return;
   }
 
+  //ublic Length(T array)
   @Override
   public void visit(ast.Ast.Exp.Length e)
   {
+	 // error(getLineNumber());
+	  e.array.accept(this);
+	  this.exp = new Length(this.exp);
   }
-
+  
+  //public Lt(T left, T right)
   @Override
   public void visit(ast.Ast.Exp.Lt e)
   {
@@ -131,9 +175,16 @@ public class TranslateVisitor implements ast.Visitor
     return;
   }
 
+  // public NewIntArray(T exp)
   @Override
   public void visit(ast.Ast.Exp.NewIntArray e)
   {
+	  //error(getLineNumber());
+	  Exp.T exp;
+	  e.exp.accept(this);
+	  exp = this.exp;
+	  this.exp = new NewIntArray(exp); 
+
   }
 
   @Override
@@ -143,9 +194,13 @@ public class TranslateVisitor implements ast.Visitor
     return;
   }
 
+  //public Not(T exp)
   @Override
   public void visit(ast.Ast.Exp.Not e)
   {
+	  e.exp.accept(this);
+	  this.exp = new Not(this.exp);
+	  return;
   }
 
   @Override
@@ -187,6 +242,7 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Exp.True e)
   {
+	  this.exp =new True();
   }
 
   // //////////////////////////////////////////////
@@ -199,16 +255,36 @@ public class TranslateVisitor implements ast.Visitor
     return;
   }
 
+  //public AssignArray(String id, Exp.T index, Exp.T exp)
   @Override
   public void visit(ast.Ast.Stm.AssignArray s)
   {
+	  //error(getLineNumber());
+	  String id = s.id;
+	  s.index.accept(this);
+	  Exp.T index = this.exp;
+	  s.exp.accept(this);
+	  
+	  this.stm = new AssignArray(id, index, exp); 
+	  
   }
 
+  //public Block(java.util.LinkedList<T> stms)
   @Override
   public void visit(ast.Ast.Stm.Block s)
   {
+	  LinkedList<Stm.T> list=new LinkedList<>();
+	  
+	  for (T stm : s.stms) {
+		stm.accept(this);
+		
+		list.add(this.stm);
+	}
+	  this.stm = new Block(list);
   }
 
+//  public If(Exp.T condition, T thenn, T elsee)
+  
   @Override
   public void visit(ast.Ast.Stm.If s)
   {
@@ -230,9 +306,20 @@ public class TranslateVisitor implements ast.Visitor
     return;
   }
 
+  //public While(Exp.T condition, T body)
+  
   @Override
   public void visit(ast.Ast.Stm.While s)
   {
+	  Exp.T condition;
+	  Stm.T body;
+	  s.condition.accept(this);
+	  condition = this.exp;
+	  s.body.accept(this);
+	  body = this.stm;
+	  
+	  this.stm = new While(condition, body);
+
   }
 
   // ///////////////////////////////////////////
@@ -240,11 +327,18 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Type.Boolean t)
   {
+	  //error(getLineNumber());
+	  this.type = new Type.Boolean();
+	  
   }
 
+  //public ClassType(String id)
   @Override
   public void visit(ast.Ast.Type.ClassType t)
   {
+	  //error(getLineNumber());
+	  this.type = new Type.ClassType(t.id);
+	  
   }
 
   @Override
@@ -256,6 +350,8 @@ public class TranslateVisitor implements ast.Visitor
   @Override
   public void visit(ast.Ast.Type.IntArray t)
   {
+	 // error(getLineNumber());
+	 this.type = new Type.IntArray(); 
   }
 
   // ////////////////////////////////////////////////

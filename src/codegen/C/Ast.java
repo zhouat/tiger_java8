@@ -2,6 +2,8 @@ package codegen.C;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import ast.Ast.Exp.T;
+
 
 public class Ast
 {
@@ -13,6 +15,26 @@ public class Ast
     {
     }
 
+    public static class Boolean extends T
+    {
+      public Boolean()
+      {
+      }
+
+      @Override
+      public String toString()
+      {
+        return "@boolean";
+      }
+
+      @Override
+      public void accept(Visitor v)
+      {
+        v.visit(this);
+      }
+    }
+    
+    
     public static class ClassType extends T
     {
       public String id;
@@ -192,6 +214,22 @@ public class Ast
       }
     }
 
+ // False
+    public static class False extends T
+    {
+      public False()
+      {
+      }
+
+      @Override
+      public void accept(Visitor v)
+      {
+        v.visit(this);
+        return;
+      }
+    }
+    
+    
     public static class Id extends T
     {
       public String id;
@@ -370,7 +408,22 @@ public class Ast
         return;
       }
     }
+    
+    // True
+    public static class True extends T
+    {
+      public True()
+      {
+      }
 
+      @Override
+      public void accept(Visitor v)
+      {
+        v.visit(this);
+        return;
+      }
+    }
+    
   }// end of expression
 
   // /////////////////////////////////////////////

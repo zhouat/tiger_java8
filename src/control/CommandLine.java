@@ -156,7 +156,9 @@ public class CommandLine
           continue;
 
         found = true;
+
         String theArg = null;
+
         switch (arg.kind) {
         case Empty:
           arg.action.f(null);
@@ -190,6 +192,7 @@ public class CommandLine
             num = Integer.parseInt(theArg);
           } catch (java.lang.NumberFormatException e) {
             System.out.println("Error: " + arg.name + ": requires an integer");
+
             this.output();
             System.exit(1);
           }
